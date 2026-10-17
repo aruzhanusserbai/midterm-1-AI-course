@@ -9,14 +9,9 @@ Fingerprint:9c58e91a
 
 ## AI-use declaration
 
-(About half a page: which assistants or tools you used and for what. If you used none, say so.)
-
 I used ChatGPT to calculate recall@k, MRR@10, Wilson confidence intervals, annual costs and per-language results. It also helped calculate the numerical answers in Part 3. The calculations used the synthetic values supplied in my generated exam files.
-
-I used ChatGPT to explain the metrics and formulas through examples, including how retrieval ranks determine recall and how the position of the correct chunk affects MRR. It also helped interpret uncertainty, compare costs against the budget, and identify differences between language groups.
-
-For the written sections, I made the final decisions and developed my own arguments. I used ChatGPT to correct grammatical errors and help express my thoughts clearly in English within the word limits.
-
+ChatGPT was also used to explain the metrics and formulas through examples, including how retrieval ranks determine recall and how the position of the correct chunk affects MRR. It also helped interpret uncertainty, compare costs against the budget, and identify differences between language groups.
+ChatGPT also helped draft the written sections, which I discussed and revised to reflect my final choices and understanding.
 ## Part 1: Retrieval and cost decision
 
 ### 1a. Metrics (all 60 questions)
@@ -46,15 +41,18 @@ For the written sections, I made the final decisions and developed my own argume
 
 ### 1d. Decision (at most 150 words)
 
-Chosen candidate:
+Chosen candidate: A, k=3
 
 (Decision, using your intervals and the budget. Give the recall of your choice for EN, RU and KK separately.)
 
-I recommend A, k=3: annual model cost is $9,810.88, below the $11,700 budget, with recall 43/60 = 71.67% (95% Wilson interval 59.23–81.49%). A, k=5 exceeds the budget. Both A candidates have intervals above B, k=3's 30.06–54.27%, without overlap, supporting higher recall under the course rule. However, A, k=3 overlaps B, k=5 (50.68–74.38%); this sample does not establish a winner between them. The two A intervals also overlap. I choose the highest observed recall within budget, accepting higher cost than B, k=5. For my choice, EN recall is 17/20 = 85%, RU is 13/20 = 65%, and KK is 13/20 = 65%. RU and KK are jointly worst served; the overall recall hides this gap. Retrieval recall measures finding the correct chunk, not final answer correctness.
+I recommend A, k=3 because its annual cost of $9,810.88 fits the $11,700 budget and it achieved the highest observed recall among the affordable candidates: 71.67%. I consider the additional cost worthwhile because it also achieved higher recall in each language than the other affordable options.
 
+Its 95% Wilson interval is 59.23–81.49%. B, k=5 had lower observed recall and a slightly wider interval, but the intervals overlap, so these results do not establish that A, k=3 is truly better.
+A, k=3 also outperforms B, k=3 under the course rule because their intervals do not overlap.
+For A, k=3, recall was 85% for EN, 65% for RU and 65% for KK. Russian and Kazakh were therefore the worst-served languages, although their observed results were higher than under the other affordable candidates.
 ### 1e. Next measurement (at most 60 words)
 
-Run A, k=3 and B, k=5 on the same 600 new questions, with 200 per language. Blind-score grounded answer correctness and report per-language Wilson intervals. If the cheaper B, k=5 matches A's answer quality, especially for RU and KK, choose B; a clear A advantage would justify its additional cost.
+Run A, k=3 and B, k=5 on the same 600 new questions, with 200 per language. Blind-score grounded answer correctness and report per-language Wilson intervals. If the cheaper B, k=5 matches A's answer quality, especially for RU and KK, choose B. A clear A advantage would justify its additional cost.
 
 ## Part 2: A document pipeline you can defend
 
@@ -69,36 +67,48 @@ Personal-data pages per year sent abroad under H:87600
 
 ### 2b. Memo (at most 300 words)
 To: Head of Operations
-Choose L, with human verification before extracted fields trigger financial actions. H scores 157/180 = 87.22% overall; L scores 142/180 = 78.89%. H's weakest cells are degraded RU and KK, both 24/30 = 80% (95% Wilson 62.69–90.50%). L's weakest is degraded KK, 21/30 = 70% (52.12–83.34%). Overall accuracy hides these weaker groups. Small cells give wide, overlapping intervals, so the observed weakest groups are not proven uniquely worse, nor is H proven better in the weakest-cell comparison.
-H costs $7,539.08 annually; L costs $7,200 for one server, whose 6,000-page daily capacity exceeds the 3,000-page workload. These estimates exclude human review and additional operational costs.
-For H: where does the scan go? A foreign data centre, including 87,600 pages annually containing names and ИИН. Who stores it, and for how long? The supplied data does not say. Establish vendor/subprocessor access, storage and backup locations, retention, deletion and training use before considering deployment. An ИИН is covered by Kazakhstan's personal-data law; a vendor assurance alone is not a compliance review.
-For L: inference runs on the bank's server in Kazakhstan. Verify who administers scans, whether logs, telemetry or backups copy them elsewhere, and actual retention. Local inference alone does not settle compliance.
-Require documented compliance review, role-based access with audit logs, encryption, outbound-network restrictions tested using traffic logs, and an approved retention schedule tested by deletion and backup-expiry checks. Keep names and ИИН out of diagnostic logs. Audit errors by language and scan condition.
-L avoids the stated foreign API transfer and costs less, but has lower observed extraction accuracy. Residual risks include incorrect fields, especially degraded KK, internal misuse and unverified backup handling. Human review mitigates errors but adds workload and cost.
+
+I recommend L because the scans contain personal data, and we do not know enough about how H stores it abroad. I would require human verification before using extracted fields for financial actions.
+
+H achieved 87.22% accuracy, compared with L’s 78.89%. H’s weakest groups were degraded RU and KK scans, both at 80% (95% Wilson interval: 62.69–90.50%). L’s weakest group was degraded KK at 70% (52.12–83.34%). Overall accuracy hides these weaker results. Each group contained only 30 documents, so the intervals are wide and overlap; this comparison does not establish a clear difference between the weakest groups.
+
+H costs $7,539.08 annually, while L costs $7,200. One L server can handle 6,000 pages daily, enough for the 3,000-page workload. Human review would add costs.
+
+H sends scans to a foreign data centre, including 87,600 pages with names and ИИН annually. The information provided does not explain who stores them, who can access them or how long they remain, including in backups. These details would require verification and a compliance review. A vendor’s statement alone would not be enough.
+
+L processes scans on the bank’s server in Kazakhstan. However, we still need to check administrator access, storage and backup locations, retention periods and whether telemetry sends data elsewhere. Local processing alone does not guarantee compliance.
+
+I would require encryption, access limited by role, access logs and rules keeping personal data out of diagnostic logs. Network logs should confirm outbound restrictions, and deletion checks should verify retention rules, including backup expiry.
+
+I accept L’s lower observed accuracy in exchange for local processing. Remaining risks include extraction errors, especially on degraded KK scans, internal misuse and mistakes during human review.
 
 ## Part 3: Explain your own numbers
 
 ### Q1
 
-Number:
-Why (at most 40 words):
+Number: 1.21 (KK/EN characters = 1.1752; bytes = 2.3025; tokens = 2.7966; token ratio / byte ratio = 1.2146).
 
+Why (at most 40 words): The value 1.21 shows that the token increase is not explained by UTF-8 byte size alone. The tokenizer also contributes by splitting the Kazakh text into finer pieces.
 ### Q2
 
-Number:
-Why (at most 40 words):
+Number: 13.5 %
+
+Why (at most 40 words): Only English is truncated because its estimated length exceeds the 512-token limit. Russian and Kazakh fit. The cut part may contain important information, which will not be represented in the embedding and could affect retrieval.
 
 ### Q3
 
-Number:
-Why (at most 40 words):
+Number: 66.5 %
+
+Why (at most 40 words): Top-p excludes low-probability tokens from the selection pool. Lowering temperature makes high-probability tokens more likely, but does not itself exclude the other tokens.
 
 ### Q4
 
-Number:
-Why (at most 40 words):
+Number: 27.6 % (weighted bound: (193 × 0.30 + 295 × 0.26) / 488).
+
+Why (at most 40 words): I excluded arithmetic sequences and multiplication because rules allow generalisation to new examples. Account numbers and birthdays require specific facts. The instruction “never invent a fact” does not provide missing information, so it does not change the bound.
 
 ### Q5
 
-Number:
-Why (at most 40 words):
+Number: 45878
+
+Why (at most 40 words): The first message is paid for 28 times because it is resent as part of the history on every turn. Prompt caching can reduce the cost of repeated input, but does not make it free.
