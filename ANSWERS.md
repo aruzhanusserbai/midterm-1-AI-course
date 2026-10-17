@@ -87,28 +87,23 @@ I accept L’s lower observed accuracy in exchange for local processing. Remaini
 ### Q1
 
 Number: 1.21 (KK/EN characters = 1.1752; bytes = 2.3025; tokens = 2.7966; token ratio / byte ratio = 1.2146).
-
 Why (at most 40 words): The value 1.21 shows that the token increase is not explained by UTF-8 byte size alone. The tokenizer also contributes by splitting the Kazakh text into finer pieces.
 ### Q2
 
 Number: 13.5 %
-
 Why (at most 40 words): Only English is truncated because its estimated length exceeds the 512-token limit. Russian and Kazakh fit. The cut part may contain important information, which will not be represented in the embedding and could affect retrieval.
 
 ### Q3
 
 Number: 66.5 %
-
 Why (at most 40 words): Top-p excludes low-probability tokens from the selection pool. Lowering temperature makes high-probability tokens more likely, but does not itself exclude the other tokens.
 
 ### Q4
 
 Number: 27.6 % (weighted bound: (193 × 0.30 + 295 × 0.26) / 488).
-
 Why (at most 40 words): I excluded arithmetic sequences and multiplication because rules allow generalisation to new examples. Account numbers and birthdays require specific facts. The instruction “never invent a fact” does not provide missing information, so it does not change the bound.
 
 ### Q5
 
 Number: 45878
-
 Why (at most 40 words): The first message is paid for 28 times because it is resent as part of the history on every turn. Prompt caching can reduce the cost of repeated input, but does not make it free.
