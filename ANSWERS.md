@@ -11,6 +11,12 @@ Fingerprint:9c58e91a
 
 (About half a page: which assistants or tools you used and for what. If you used none, say so.)
 
+I used ChatGPT to calculate recall@k, MRR@10, Wilson confidence intervals, annual costs and per-language results. It also helped calculate the numerical answers in Part 3. The calculations used the synthetic values supplied in my generated exam files.
+
+I used ChatGPT to explain the metrics and formulas through examples, including how retrieval ranks determine recall and how the position of the correct chunk affects MRR. It also helped interpret uncertainty, compare costs against the budget, and identify differences between language groups.
+
+For the written sections, I made the final decisions and developed my own arguments. I used ChatGPT to correct grammatical errors and help express my thoughts clearly in English within the word limits.
+
 ## Part 1: Retrieval and cost decision
 
 ### 1a. Metrics (all 60 questions)
